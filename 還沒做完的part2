@@ -1,0 +1,40 @@
+#include <LiquidCrystal.h>
+volatile boolean state=LOW;
+const int trig = 12;
+const int echo = 13;
+const int inter_time = 1000;
+int time = 0;
+const byte intPin=2; 
+LiquidCrystal lcd(11, 10, 5, 4, 3, 6);
+void setup() {
+  Serial.begin(9600);
+  pinMode(2, INPUT_PULLUP);
+  pinMode (trig, OUTPUT);
+  pinMode (echo, INPUT);
+  attachInterrupt(0, int0, LOW);
+}
+
+void loop() {
+  
+  
+ 
+}
+void int0() { //interrupt handler
+  state=!state; //reverse state
+    float duration, distance;
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(1000);
+  digitalWrite(trig, LOW);
+  duration = pulseIn (echo, HIGH);
+  distance = (duration/2)/29;
+  lcd.write("Data:");
+    lcd.print(time/1000);
+    lcd.write(",d = ");
+    lcd.print(distance);
+    lcd.write(" cm");
+  time = time + inter_time;
+  delay(inter_time);
+   lcd.clear();
+  delay(100);  
+ 
+  }
